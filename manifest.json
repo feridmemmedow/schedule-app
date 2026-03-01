@@ -1,8 +1,9 @@
 {
   "name": "Ders Cedveli 2026",
   "short_name": "Cedvel",
+  "description": "Günlük dərs planlama və cədvəl tətbiqi",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "theme_color": "#000000"
 }
