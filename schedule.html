@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dərs Cədvəli 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #f7f2e8;
+    --parchment: #ede8dc;
+    --brown: #5c3d1e;
+    --gold: #c9932a;
+    --gold-light: #e8c05a;
+    --red: #8b1a1a;
+    --ink: #2c1a0e;
+    --muted: #7a6a54;
+    --border: #c4b49a;
+    --mantiq: #6b4c9a;
+    --ingilis: #1a5c8a;
+    --informatika: #1a7a3a;
+  }
+
+  body {
+    background: #1e1408;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 16px 60px;
+    font-family: 'Crimson Text', serif;
+    background-image:
+      radial-gradient(ellipse at 15% 15%, #2e1c0a 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 85%, #120a02 0%, transparent 55%);
+  }
+
+  /* COVER */
+  .cover {
+    width: 100%; max-width: 520px;
+    background: linear-gradient(160deg, #8b1a1a 0%, #6b1212 45%, #4a0d0d 100%);
+    border-radius: 4px 14px 14px 4px;
+    padding: 64px 48px;
+    text-align: center;
+    position: relative;
+    box-shadow: -10px 0 24px rgba(0,0,0,.6), 10px 10px 36px rgba(0,0,0,.8),
+                inset 5px 0 10px rgba(255,255,255,.04);
+    border-left: 22px solid #380808;
+    cursor: pointer;
+    transition: transform .3s;
+  }
+  .cover:hover { transform: translateY(-5px); }
+  .cc { position:absolute; width:44px; height:44px; border-color:var(--gold); border-style:solid; opacity:.45; }
+  .cc.tl{top:18px;left:38px;border-width:2px 0 0 2px}
+  .cc.tr{top:18px;right:18px;border-width:2px 2px 0 0}
+  .cc.bl{bottom:18px;left:38px;border-width:0 0 2px 2px}
+  .cc.br{bottom:18px;right:18px;border-width:0 2px 2px 0}
+  .c-tag{font-size:11px;letter-spacing:6px;text-transform:uppercase;color:rgba(232,192,90,.7)}
+  .c-line{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:14px 0}
+  .c-title{font-family:'Playfair Display',serif;font-size:46px;font-weight:900;color:var(--gold-light);line-height:1.1;text-shadow:2px 3px 10px rgba(0,0,0,.5)}
+  .c-sub{font-family:'EB Garamond',serif;font-size:15px;color:rgba(232,192,90,.65);letter-spacing:3px;margin-top:6px}
+  .c-year{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);margin-top:28px;font-style:italic}
+  .c-hint{font-size:11px;color:rgba(232,192,90,.35);letter-spacing:2px;text-transform:uppercase;margin-top:28px}
+
+  /* BOOK WRAP */
+  .book-wrap{display:none;width:100%;max-width:520px;flex-direction:column;align-items:center}
+  .book-wrap.open{display:flex}
+
+  /* TOP BAR */
+  .top-bar{width:100%;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:8px}
+  .nav-btn{
+    background:rgba(201,147,42,.12);border:1px solid rgba(201,147,42,.35);
+    color:var(--gold-light);font-family:'EB Garamond',serif;font-size:22px;
+    width:42px;height:42px;border-radius:7px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;
+  }
+  .nav-btn:hover{background:rgba(201,147,42,.25);border-color:var(--gold)}
+  .nav-btn:disabled{opacity:.22;cursor:not-allowed}
+  .page-indicator{font-family:'EB Garamond',serif;font-size:12px;color:rgba(232,192,90,.5);letter-spacing:1.5px;text-align:center;flex:1}
+  .back-btn{
+    background:none;border:1px solid rgba(201,147,42,.3);color:var(--gold-light);
+    font-family:'EB Garamond',serif;font-size:13px;letter-spacing:1px;
+    padding:6px 14px;border-radius:5px;cursor:pointer;transition:all .2s;white-space:nowrap;
+  }
+  .back-btn:hover{background:rgba(201,147,42,.1);border-color:var(--gold)}
+
+  /* PAGE */
+  .page{
+    width:100%;
+    background:var(--cream);
+    border-radius:3px 14px 14px 3px;
+    box-shadow:-8px 0 18px rgba(0,0,0,.55),8px 8px 28px rgba(0,0,0,.65),inset 5px 0 12px rgba(0,0,0,.08);
+    border-left:18px solid #c4aa80;
+    display:none;flex-direction:column;
+    min-height:600px;overflow:hidden;position:relative;
+  }
+  .page.active{display:flex;animation:pf .28s ease}
+  @keyframes pf{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
+  .page::before{
+    content:'';position:absolute;inset:0;
+    background:repeating-linear-gradient(0deg,transparent,transparent 31px,rgba(180,160,130,.12) 31px,rgba(180,160,130,.12) 32px);
+    pointer-events:none;z-index:0;
+  }
+
+  /* PAGE HEADER */
+  .page-header{
+    position:relative;z-index:1;
+    padding:24px 26px 18px;
+    border-bottom:2px solid var(--border);
+    display:flex;align-items:center;gap:16px;
+  }
+  .ph-num{font-family:'Playfair Display',serif;font-size:60px;font-weight:900;color:var(--brown);line-height:1;opacity:.85}
+  .ph-info{flex:1}
+  .ph-dayname{font-family:'EB Garamond',serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+  .ph-month{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--ink)}
+  .ph-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+
+  /* RING */
+  .ring-wrap{display:flex;align-items:center;gap:5px}
+  .ring{width:34px;height:34px;transform:rotate(-90deg)}
+  .ring-bg{fill:none;stroke:rgba(180,160,130,.3);stroke-width:3}
+  .ring-fill{fill:none;stroke:var(--gold);stroke-width:3;stroke-linecap:round;transition:stroke-dashoffset .5s ease}
+  .ring-pct{font-family:'Playfair Display',serif;font-size:12px;font-weight:700;color:var(--gold)}
+  .progress-text{font-family:'EB Garamond',serif;font-size:11px;color:var(--muted);letter-spacing:.5px}
+
+  /* TASKS AREA */
+  .tasks-area{position:relative;z-index:1;padding:18px 26px;display:flex;flex-direction:column;gap:11px}
+  .section-label{
+    font-family:'EB Garamond',serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;
+    color:var(--muted);margin-bottom:2px;border-bottom:1px solid var(--border);padding-bottom:5px;
+  }
+
+  /* TASK ITEM */
+  .task-item{
+    display:flex;align-items:flex-start;gap:11px;
+    padding:11px 13px;border-radius:9px;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.52);
+    cursor:pointer;transition:all .22s;user-select:none;
+  }
+  .task-item:hover{background:rgba(255,255,255,.82);border-color:var(--gold)}
+  .task-item.done{background:rgba(180,220,180,.18);border-color:rgba(26,122,58,.3)}
+  .task-item.done .task-label{text-decoration:line-through;color:var(--muted)}
+  .task-check{
+    width:22px;height:22px;flex-shrink:0;
+    border:2px solid var(--border);border-radius:5px;
+    display:flex;align-items:center;justify-content:center;
+    transition:all .2s;margin-top:2px;
+  }
+  .task-item.done .task-check{background:#1a7a3a;border-color:#1a7a3a}
+  .task-check svg{display:none}
+  .task-item.done .task-check svg{display:block}
+  .task-content{flex:1}
+  .task-label{font-family:'Crimson Text',serif;font-size:16px;color:var(--ink);font-weight:600;line-height:1.3;transition:all .2s}
+  .task-sub{font-family:'Crimson Text',serif;font-size:13px;color:var(--muted);font-style:italic;margin-top:2px}
+  .task-badge{font-size:17px;margin-top:2px}
+
+  /* subject accents */
+  .task-item.s-mantiq{border-left:3px solid var(--mantiq)}
+  .task-item.s-ingilis{border-left:3px solid var(--ingilis)}
+  .task-item.s-informatika{border-left:3px solid var(--informatika)}
+  .task-item.vocab{
+    border-left:3px solid var(--gold);
+    background:linear-gradient(135deg,rgba(92,61,30,.07),rgba(201,147,42,.05));
+    border-color:rgba(201,147,42,.35);
+  }
+  .task-item.vocab .task-check{border-color:rgba(201,147,42,.5)}
+  .task-item.vocab.done .task-check{background:var(--gold);border-color:var(--gold)}
+  .task-item.vocab.done{background:rgba(201,147,42,.12)}
+
+  /* FASILE */
+  .fasile-header{
+    position:relative;z-index:1;
+    padding:24px 26px 18px;
+    border-bottom:2px solid rgba(139,26,26,.18);
+    display:flex;align-items:center;gap:16px;
+    background:linear-gradient(135deg,rgba(139,26,26,.06),transparent);
+  }
+  .fasile-card{
+    margin:4px 26px 10px;padding:22px 20px;
+    border-radius:10px;
+    background:linear-gradient(135deg,rgba(139,26,26,.07),rgba(139,26,26,.03));
+    border:1px dashed rgba(139,26,26,.28);
+    text-align:center;position:relative;z-index:1;
+  }
+  .fasile-big{font-size:38px}
+  .fasile-title{font-family:'Playfair Display',serif;font-size:20px;color:var(--red);font-style:italic;margin-top:6px}
+  .fasile-note{font-family:'Crimson Text',serif;font-size:14px;color:var(--muted);font-style:italic;margin-top:5px}
+
+  /* NOTES */
+  .notes-area{position:relative;z-index:1;padding:0 26px 22px;margin-top:auto}
+  .notes-label{
+    font-family:'EB Garamond',serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;
+    color:var(--muted);margin-bottom:7px;display:flex;align-items:center;gap:8px;
+  }
+  .notes-label::before,.notes-label::after{content:'';flex:1;height:1px;background:var(--border)}
+  textarea.notes-input{
+    width:100%;min-height:88px;
+    background:rgba(255,255,255,.58);border:1px solid var(--border);border-radius:9px;
+    padding:11px 13px;font-family:'Crimson Text',serif;font-size:15px;
+    color:var(--ink);resize:vertical;outline:none;transition:border .2s;line-height:1.55;
+  }
+  textarea.notes-input:focus{border-color:var(--gold);background:rgba(255,255,255,.88)}
+  textarea.notes-input::placeholder{color:rgba(122,106,84,.45);font-style:italic}
+
+  /* FOOTER */
+  .page-footer{
+    position:relative;z-index:1;padding:9px 26px;
+    border-top:1px solid var(--border);
+    display:flex;align-items:center;justify-content:space-between;
+    background:rgba(237,232,220,.55);
+  }
+  .footer-left{font-family:'EB Garamond',serif;font-size:12px;color:var(--muted);letter-spacing:1px}
+  .footer-right{font-family:'Playfair Display',serif;font-size:13px;color:var(--muted);letter-spacing:2px}
+
+  @media(max-width:480px){
+    .ph-num{font-size:46px}
+    .page-header,.fasile-header{padding:18px 16px 14px}
+    .tasks-area{padding:14px 16px}
+    .notes-area{padding:0 16px 18px}
+    .page-footer{padding:8px 16px}
+    .fasile-card{margin:4px 16px 10px}
+    .cover{padding:44px 28px;border-left-width:14px}
+    .c-title{font-size:36px}
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover" id="cover" onclick="openBook()">
+  <div class="cc tl"></div><div class="cc tr"></div>
+  <div class="cc bl"></div><div class="cc br"></div>
+  <div class="c-tag">✦ &nbsp; Hazırlıq &nbsp; ✦</div>
+  <div class="c-line"></div>
+  <div class="c-title">Dərs<br>Cədvəli</div>
+  <div class="c-sub">Mart – Aprel</div>
+  <div class="c-line"></div>
+  <div class="c-year">2026</div>
+  <div style="margin:30px 0 0;display:flex;justify-content:center;gap:16px;opacity:.4">
+    <div style="width:26px;height:1px;background:var(--gold);margin-top:8px"></div>
+    <div style="color:var(--gold);font-size:15px">✦</div>
+    <div style="width:26px;height:1px;background:var(--gold);margin-top:8px"></div>
+  </div>
+  <div style="margin-top:20px;font-family:'EB Garamond',serif;font-size:14px;color:rgba(232,192,90,.55);letter-spacing:2px;font-style:italic">by Ferid Məmmədov</div>
+  <div class="c-hint" style="margin-top:12px">Açmaq üçün klikləyin</div>
+</div>
+
+<!-- BOOK WRAP -->
+<div class="book-wrap" id="bookWrap">
+  <div class="top-bar">
+    <button class="back-btn" onclick="closeBook()">← Geri</button>
+    <div class="page-indicator" id="pageIndicator"></div>
+    <button class="nav-btn" id="prevBtn" onclick="changePage(-1)">‹</button>
+    <button class="nav-btn" id="nextBtn" onclick="changePage(1)">›</button>
+  </div>
+  <div id="pagesContainer" style="width:100%"></div>
+</div>
+
+<script>
+const days = [
+  {date:"2 Mart",num:"2",month:"Mart",day:"Bazar ertəsi",fasile:false,tasks:[
+    {id:"a1",label:"Məntiq: Şifrələr",sub:null,type:"mantiq",icon:"🧠"},
+    {id:"a2",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"3 Mart",num:"3",month:"Mart",day:"Çərşənbə axşamı",fasile:true,tasks:[
+    {id:"a3",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"4 Mart",num:"4",month:"Mart",day:"Çərşənbə",fasile:false,tasks:[
+    {id:"a4",label:"İngilis: The Noun",sub:"3 Reading + 1 Listening + Grammar",type:"ingilis",icon:"🇬🇧"},
+    {id:"a5",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"5 Mart",num:"5",month:"Mart",day:"Cümə axşamı",fasile:false,tasks:[
+    {id:"a6",label:"İnformatika: İnformatika və Onun Əsas Anlayışları",sub:null,type:"informatika",icon:"💻"},
+    {id:"a7",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"6 Mart",num:"6",month:"Mart",day:"Cümə",fasile:false,tasks:[
+    {id:"a8",label:"Məntiq: Riyazi Əməllər",sub:null,type:"mantiq",icon:"🧠"},
+    {id:"a9",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"7 Mart",num:"7",month:"Mart",day:"Şənbə",fasile:false,tasks:[
+    {id:"a10",label:"İngilis: The Pronoun – I",sub:"3 Reading + 1 Listening + Grammar",type:"ingilis",icon:"🇬🇧"},
+    {id:"a11",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"8 Mart",num:"8",month:"Mart",day:"Bazar",fasile:false,tasks:[
+    {id:"a12",label:"İnformatika: Say Sistemləri",sub:null,type:"informatika",icon:"💻"},
+    {id:"a13",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"9 Mart",num:"9",month:"Mart",day:"Bazar ertəsi",fasile:false,tasks:[
+    {id:"a14",label:"Məntiq: Şəklin Analizi",sub:null,type:"mantiq",icon:"🧠"},
+    {id:"a15",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"10 Mart",num:"10",month:"Mart",day:"Çərşənbə axşamı",fasile:true,tasks:[
+    {id:"a16",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"11 Mart",num:"11",month:"Mart",day:"Çərşənbə",fasile:false,tasks:[
+    {id:"a17",label:"İngilis: The Verb",sub:"3 Reading + 1 Listening + Grammar",type:"ingilis",icon:"🇬🇧"},
+    {id:"a18",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"12 Mart",num:"12",month:"Mart",day:"Cümə axşamı",fasile:false,tasks:[
+    {id:"a19",label:"İnformatika: Kompüterin Texniki Təminatı",sub:null,type:"informatika",icon:"💻"},
+    {id:"a20",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"13 Mart",num:"13",month:"Mart",day:"Cümə",fasile:false,tasks:[
+    {id:"a21",label:"Məntiq: Qeyri-Aşkar Operatorlar",sub:null,type:"mantiq",icon:"🧠"},
+    {id:"a22",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"14 Mart",num:"14",month:"Mart",day:"Şənbə",fasile:false,tasks:[
+    {id:"a23",label:"İngilis: The Pronoun – II",sub:"3 Reading + 1 Listening + Grammar",type:"ingilis",icon:"🇬🇧"},
+    {id:"a24",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"15 Mart",num:"15",month:"Mart",day:"Bazar",fasile:false,tasks:[
+    {id:"a25",label:"İnformatika: Alqoritm",sub:null,type:"informatika",icon:"💻"},
+    {id:"a26",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"16 Mart",num:"16",month:"Mart",day:"Bazar ertəsi",fasile:false,tasks:[
+    {id:"a27",label:"Məntiq: Şəkil Münasibətləri",sub:null,type:"mantiq",icon:"🧠"},
+    {id:"a28",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"17 Mart",num:"17",month:"Mart",day:"Çərşənbə axşamı",fasile:true,tasks:[
+    {id:"a29",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"18 Mart",num:"18",month:"Mart",day:"Çərşənbə",fasile:false,tasks:[
+    {id:"a30",label:"İngilis: Tense Forms – I",sub:"3 Reading + 1 Listening + Grammar",type:"ingilis",icon:"🇬🇧"},
+    {id:"a31",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"19 Mart",num:"19",month:"Mart",day:"Cümə axşamı",fasile:false,tasks:[
+    {id:"a32",label:"İnformatika: Proqram Təminatı",sub:null,type:"informatika",icon:"💻"},
+    {id:"a33",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"20 Mart",num:"20",month:"Mart",day:"Cümə",fasile:false,tasks:[
+    {id:"a34",label:"Məntiq: Ardıcıllıqlar",sub:null,type:"mantiq",icon:"🧠"},
+    {id:"a35",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"21 Mart",num:"21",month:"Mart",day:"Şənbə",fasile:false,tasks:[
+    {id:"a36",label:"İngilis: Modal Verbs",sub:"3 Reading + 1 Listening + Grammar",type:"ingilis",icon:"🇬🇧"},
+    {id:"a37",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"22 Mart",num:"22",month:"Mart",day:"Bazar",fasile:false,tasks:[
+    {id:"a38",label:"İnformatika: Əməliyyat Sistemləri",sub:null,type:"informatika",icon:"💻"},
+    {id:"a39",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"23 Mart",num:"23",month:"Mart",day:"Bazar ertəsi",fasile:false,tasks:[
+    {id:"a40",label:"Məntiq: Şəkil Ardıcıllıqları",sub:null,type:"mantiq",icon:"🧠"},
+    {id:"a41",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"24 Mart",num:"24",month:"Mart",day:"Çərşənbə axşamı",fasile:true,tasks:[
+    {id:"a42",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"25 Mart",num:"25",month:"Mart",day:"Çərşənbə",fasile:false,tasks:[
+    {id:"a43",label:"İngilis: Tense Forms – II",sub:"3 Reading + 1 Listening + Grammar",type:"ingilis",icon:"🇬🇧"},
+    {id:"a44",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"26 Mart",num:"26",month:"Mart",day:"Cümə axşamı",fasile:false,tasks:[
+    {id:"a45",label:"İnformatika: Windows 10",sub:null,type:"informatika",icon:"💻"},
+    {id:"a46",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"27 Mart",num:"27",month:"Mart",day:"Cümə",fasile:false,tasks:[
+    {id:"a47",label:"Məntiq: Mətnin Məntiqi Təhlili + Tənqidi Mühakimə",sub:null,type:"mantiq",icon:"🧠"},
+    {id:"a48",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"28 Mart",num:"28",month:"Mart",day:"Şənbə",fasile:false,tasks:[
+    {id:"a49",label:"İngilis: The Complex Object",sub:"3 Reading + 1 Listening + Grammar",type:"ingilis",icon:"🇬🇧"},
+    {id:"a50",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"29 Mart",num:"29",month:"Mart",day:"Bazar",fasile:false,tasks:[
+    {id:"a51",label:"İnformatika: MS Word 2019 – I",sub:null,type:"informatika",icon:"💻"},
+    {id:"a52",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"30 Mart",num:"30",month:"Mart",day:"Bazar ertəsi",fasile:false,tasks:[
+    {id:"a53",label:"Məntiq: Rebus",sub:null,type:"mantiq",icon:"🧠"},
+    {id:"a54",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"31 Mart",num:"31",month:"Mart",day:"Çərşənbə axşamı",fasile:true,tasks:[
+    {id:"a55",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"1 Aprel",num:"1",month:"Aprel",day:"Çərşənbə",fasile:false,tasks:[
+    {id:"b1",label:"İngilis: The Passive Voice",sub:"3 Reading + 1 Listening + Grammar",type:"ingilis",icon:"🇬🇧"},
+    {id:"b2",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"2 Aprel",num:"2",month:"Aprel",day:"Cümə axşamı",fasile:false,tasks:[
+    {id:"b3",label:"İnformatika: MS Word 2019 – II",sub:null,type:"informatika",icon:"💻"},
+    {id:"b4",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"3 Aprel",num:"3",month:"Aprel",day:"Cümə",fasile:false,tasks:[
+    {id:"b5",label:"Məntiq: Şəkil Cədvəlləri + Müstəvi Təsəvvür",sub:null,type:"mantiq",icon:"🧠"},
+    {id:"b6",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"4 Aprel",num:"4",month:"Aprel",day:"Şənbə",fasile:false,tasks:[
+    {id:"b7",label:"İngilis: The Conjunction",sub:"3 Reading + 1 Listening + Grammar",type:"ingilis",icon:"🇬🇧"},
+    {id:"b8",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"5 Aprel",num:"5",month:"Aprel",day:"Bazar",fasile:false,tasks:[
+    {id:"b9",label:"İnformatika: MS Excel 2019 – I",sub:null,type:"informatika",icon:"💻"},
+    {id:"b10",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"6 Aprel",num:"6",month:"Aprel",day:"Bazar ertəsi",fasile:false,tasks:[
+    {id:"b11",label:"Məntiq: Cədvəllər",sub:null,type:"mantiq",icon:"🧠"},
+    {id:"b12",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"7 Aprel",num:"7",month:"Aprel",day:"Çərşənbə axşamı",fasile:true,tasks:[
+    {id:"b13",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"8 Aprel",num:"8",month:"Aprel",day:"Çərşənbə",fasile:false,tasks:[
+    {id:"b14",label:"İngilis: The Preposition",sub:"3 Reading + 1 Listening + Grammar",type:"ingilis",icon:"🇬🇧"},
+    {id:"b15",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"9 Aprel",num:"9",month:"Aprel",day:"Cümə axşamı",fasile:false,tasks:[
+    {id:"b16",label:"İnformatika: MS Excel 2019 – II",sub:null,type:"informatika",icon:"💻"},
+    {id:"b17",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"10 Aprel",num:"10",month:"Aprel",day:"Cümə",fasile:false,tasks:[
+    {id:"b18",label:"Məntiq: Analogiya – Anagram",sub:null,type:"mantiq",icon:"🧠"},
+    {id:"b19",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"11 Aprel",num:"11",month:"Aprel",day:"Şənbə",fasile:false,tasks:[
+    {id:"b20",label:"İngilis: Complete the Sentences",sub:"3 Reading + 1 Listening + Grammar",type:"ingilis",icon:"🇬🇧"},
+    {id:"b21",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"12 Aprel",num:"12",month:"Aprel",day:"Bazar",fasile:false,tasks:[
+    {id:"b22",label:"İnformatika: MS Access 2019 – I",sub:null,type:"informatika",icon:"💻"},
+    {id:"b23",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"13 Aprel",num:"13",month:"Aprel",day:"Bazar ertəsi",fasile:false,tasks:[
+    {id:"b24",label:"Məntiq: Hesab Əməlləri",sub:null,type:"mantiq",icon:"🧠"},
+    {id:"b25",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"14 Aprel",num:"14",month:"Aprel",day:"Çərşənbə axşamı",fasile:true,tasks:[
+    {id:"b26",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"15 Aprel",num:"15",month:"Aprel",day:"Çərşənbə",fasile:false,tasks:[
+    {id:"b27",label:"İngilis: Interrogative and Negative Sentences",sub:"3 Reading + 1 Listening + Grammar",type:"ingilis",icon:"🇬🇧"},
+    {id:"b28",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"16 Aprel",num:"16",month:"Aprel",day:"Cümə axşamı",fasile:false,tasks:[
+    {id:"b29",label:"İnformatika: MS Access 2019 – II",sub:null,type:"informatika",icon:"💻"},
+    {id:"b30",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"17 Aprel",num:"17",month:"Aprel",day:"Cümə",fasile:false,tasks:[
+    {id:"b31",label:"Məntiq: Tərəzilər",sub:null,type:"mantiq",icon:"🧠"},
+    {id:"b32",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"18 Aprel",num:"18",month:"Aprel",day:"Şənbə",fasile:false,tasks:[
+    {id:"b33",label:"İngilis: Subject – Verb Agreement",sub:"3 Reading + 1 Listening + Grammar",type:"ingilis",icon:"🇬🇧"},
+    {id:"b34",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"19 Aprel",num:"19",month:"Aprel",day:"Bazar",fasile:false,tasks:[
+    {id:"b35",label:"İnformatika: Kompüter, İnternet Qlobal Şəbəkələri + Elektron Hökumət",sub:null,type:"informatika",icon:"💻"},
+    {id:"b36",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"20 Aprel",num:"20",month:"Aprel",day:"Bazar ertəsi",fasile:false,tasks:[
+    {id:"b37",label:"Məntiq: Cədvəl–Qrafik–Diaqram + Sahə–Perimetr",sub:null,type:"mantiq",icon:"🧠"},
+    {id:"b38",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"21 Aprel",num:"21",month:"Aprel",day:"Çərşənbə axşamı",fasile:true,tasks:[
+    {id:"b39",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"22 Aprel",num:"22",month:"Aprel",day:"Çərşənbə",fasile:false,tasks:[
+    {id:"b40",label:"İngilis: Correct Word, Logically Ending",sub:"3 Reading + 1 Listening + Grammar",type:"ingilis",icon:"🇬🇧"},
+    {id:"b41",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"23 Aprel",num:"23",month:"Aprel",day:"Cümə axşamı",fasile:false,tasks:[
+    {id:"b42",label:"İnformatika: Kompüter Qrafikası",sub:null,type:"informatika",icon:"💻"},
+    {id:"b43",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"24 Aprel",num:"24",month:"Aprel",day:"Cümə",fasile:false,tasks:[
+    {id:"b44",label:"Məntiq: Fəza Fiqurları",sub:null,type:"mantiq",icon:"🧠"},
+    {id:"b45",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"25 Aprel",num:"25",month:"Aprel",day:"Şənbə",fasile:false,tasks:[
+    {id:"b46",label:"İngilis: BOŞ",sub:"3 Reading + 1 Listening + Grammar",type:"ingilis",icon:"🇬🇧"},
+    {id:"b47",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"26 Aprel",num:"26",month:"Aprel",day:"Bazar",fasile:false,tasks:[
+    {id:"b48",label:"İnformatika: BOŞ",sub:null,type:"informatika",icon:"💻"},
+    {id:"b49",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"27 Aprel",num:"27",month:"Aprel",day:"Bazar ertəsi",fasile:false,tasks:[
+    {id:"b50",label:"Məntiq: Riyazi Məsələlər",sub:null,type:"mantiq",icon:"🧠"},
+    {id:"b51",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"28 Aprel",num:"28",month:"Aprel",day:"Çərşənbə axşamı",fasile:true,tasks:[
+    {id:"b52",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"29 Aprel",num:"29",month:"Aprel",day:"Çərşənbə",fasile:false,tasks:[
+    {id:"b53",label:"İngilis: BOŞ",sub:"3 Reading + 1 Listening + Grammar",type:"ingilis",icon:"🇬🇧"},
+    {id:"b54",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]},
+  {date:"30 Aprel",num:"30",month:"Aprel",day:"Cümə axşamı",fasile:false,tasks:[
+    {id:"b55",label:"İnformatika: BOŞ",sub:null,type:"informatika",icon:"💻"},
+    {id:"b56",label:"EN Vocabulary: 15–20 söz",sub:null,type:"vocab",icon:"📚"}]}
+];
+
+let state = {done:{}, notes:{}};
+let cur = 0;
+
+function saveState(){ try{localStorage.setItem('ds26',JSON.stringify(state))}catch(e){} }
+function loadState(){ try{const s=localStorage.getItem('ds26');if(s)state=JSON.parse(s)}catch(e){} }
+
+function ring(pct){
+  const r=13,c=16,ci=2*Math.PI*r,off=ci-(pct/100)*ci;
+  return `<svg class="ring" viewBox="0 0 32 32">
+    <circle class="ring-bg" cx="${c}" cy="${c}" r="${r}"/>
+    <circle class="ring-fill" cx="${c}" cy="${c}" r="${r}" stroke-dasharray="${ci.toFixed(2)}" stroke-dashoffset="${off.toFixed(2)}"/>
+  </svg><span class="ring-pct">${pct}%</span>`;
+}
+
+function getPct(i){
+  const d=days[i], tot=d.tasks.length;
+  const dn=d.tasks.filter(t=>state.done[t.id]).length;
+  return {pct:tot?Math.round(dn/tot*100):0, dn, tot};
+}
+
+function taskHTML(t){
+  const done=state.done[t.id]?' done':'';
+  const cls=t.type==='vocab'?' vocab':` s-${t.type}`;
+  return `<div class="task-item${cls}${done}" data-id="${t.id}">
+    <div class="task-check">
+      <svg width="12" height="9" viewBox="0 0 12 9" fill="none">
+        <path d="M1 4.5l3 3L11 1" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="task-content">
+      <div class="task-label">${t.label}</div>
+      ${t.sub?`<div class="task-sub">${t.sub}</div>`:''}
+    </div>
+    <div class="task-badge">${t.icon}</div>
+  </div>`;
+}
+
+function buildPage(i){
+  const d=days[i];
+  const {pct,dn,tot}=getPct(i);
+  const noteVal=(state.notes[i]||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+  const ringWrap=`<div class="ring-wrap" id="rw${i}">${ring(pct)}</div>
+    <div class="progress-text" id="pt${i}">${dn}/${tot} tapşırıq</div>`;
+
+  let header='', body='';
+
+  if(d.fasile){
+    header=`<div class="fasile-header">
+      <div class="ph-num" style="color:#8b1a1a;opacity:.55;font-size:42px">🌿</div>
+      <div class="ph-info">
+        <div class="ph-dayname">${d.day}</div>
+        <div class="ph-month" style="color:#8b1a1a">${d.date}</div>
+      </div>
+      <div class="ph-right">${ringWrap}</div>
+    </div>
+    <div class="fasile-card">
+      <div class="fasile-big">☕</div>
+      <div class="fasile-title">FASİLƏ — Dincəlmə Günü</div>
+      <div class="fasile-note">Yalnız lüğət tapşırığı qalır!</div>
+    </div>`;
+  } else {
+    header=`<div class="page-header">
+      <div class="ph-num">${d.num}</div>
+      <div class="ph-info">
+        <div class="ph-dayname">${d.day}</div>
+        <div class="ph-month">${d.month}</div>
+      </div>
+      <div class="ph-right">${ringWrap}</div>
+    </div>`;
+  }
+
+  body=`<div class="tasks-area">
+    <div class="section-label">${d.fasile?'Günün Tapşırığı':'Bu Günün Tapşırıqları'}</div>
+    ${d.tasks.map(taskHTML).join('')}
+  </div>
+  <div class="notes-area">
+    <div class="notes-label">Günün Qeydi</div>
+    <textarea class="notes-input" data-page="${i}" placeholder="Bu gün necə getdi? Nə öyrəndim? Nə çətin gəldi?...">${noteVal}</textarea>
+  </div>
+  <div class="page-footer">
+    <div class="footer-left">${d.month} 2026</div>
+    <div class="footer-right">— ${i+1} / ${days.length} —</div>
+  </div>`;
+
+  return header+body;
+}
+
+function buildAllPages(){
+  const con=document.getElementById('pagesContainer');
+  con.innerHTML='';
+  days.forEach((_,i)=>{
+    const pg=document.createElement('div');
+    pg.className='page'+(i===0?' active':'');
+    pg.id='pg'+i;
+    pg.innerHTML=buildPage(i);
+    con.appendChild(pg);
+  });
+  bindAll();
+}
+
+function bindAll(){
+  document.querySelectorAll('.task-item').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const id=el.dataset.id;
+      state.done[id]=!state.done[id];
+      el.classList.toggle('done',!!state.done[id]);
+      saveState();
+      refreshRing(cur);
+    });
+  });
+  document.querySelectorAll('.notes-input').forEach(el=>{
+    el.addEventListener('input',()=>{
+      state.notes[el.dataset.page]=el.value;
+      saveState();
+    });
+  });
+}
+
+function refreshRing(i){
+  const {pct,dn,tot}=getPct(i);
+  const rw=document.getElementById('rw'+i);
+  const pt=document.getElementById('pt'+i);
+  if(rw) rw.innerHTML=ring(pct);
+  if(pt) pt.textContent=dn+'/'+tot+' tapşırıq';
+}
+
+function changePage(dir){
+  document.getElementById('pg'+cur).classList.remove('active');
+  cur=Math.max(0,Math.min(days.length-1,cur+dir));
+  document.getElementById('pg'+cur).classList.add('active');
+  updateBar();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateBar(){
+  document.getElementById('pageIndicator').textContent=
+    days[cur].date+'  ·  '+(cur+1)+' / '+days.length;
+  document.getElementById('prevBtn').disabled=cur===0;
+  document.getElementById('nextBtn').disabled=cur===days.length-1;
+}
+
+function openBook(){
+  document.getElementById('cover').style.display='none';
+  document.getElementById('bookWrap').classList.add('open');
+  updateBar();
+}
+function closeBook(){
+  document.getElementById('bookWrap').classList.remove('open');
+  document.getElementById('cover').style.display='';
+}
+
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('bookWrap').classList.contains('open'))return;
+  if(e.target.tagName==='TEXTAREA')return;
+  if(e.key==='ArrowRight'||e.key==='ArrowDown')changePage(1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp')changePage(-1);
+});
+
+let tx=0;
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+document.addEventListener('touchend',e=>{
+  if(!document.getElementById('bookWrap').classList.contains('open'))return;
+  if(e.target.tagName==='TEXTAREA')return;
+  const dx=tx-e.changedTouches[0].clientX;
+  if(Math.abs(dx)>50)changePage(dx>0?1:-1);
+},{passive:true});
+
+loadState();
+buildAllPages();
+</script>
+</body>
+</html>
